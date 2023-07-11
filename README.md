@@ -5,3 +5,6 @@ Gosor is an AI framework that focuses on a highly concurrent approach with go ro
 
 # project status: 
 meme/not functional.
+
+# getting started 
+You can't 
