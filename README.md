@@ -26,6 +26,10 @@ To deliver a viable innovative framework for creating the next generation of AIs
 - maintaining an open and welcoming community
 - encouraging dialog and teamwork
 - limiting technical debt where ever possible 
+
 ## project requirements 
+- must have the ability to turn on and off all none essential features. 
+- all functions, typs, methods and tests must be documented no exceptions 
+
 
 
