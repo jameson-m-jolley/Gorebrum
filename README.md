@@ -25,7 +25,7 @@ To deliver a viable innovative framework for creating the next generation of AIs
 - respecting user privacy
 - maintaining an open and welcoming community
 - encouraging dialog and teamwork
-
+- limiting technical debt where ever possible 
 ## project requirements 
 
 
