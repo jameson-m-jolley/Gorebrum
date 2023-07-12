@@ -21,13 +21,13 @@ Also, take a look at the project charter to learn more about our mission
 
 To deliver a viable innovative framework for creating the next generation of AIs, this project does not mind being a ginny pig for unconventional ideas. Our mission is to bring new technology to the hands of developers and to do so will grace and elegance with a minimal barrier to entry. 
 
-## project values 
+### project values 
 - respecting user privacy
 - maintaining an open and welcoming community
 - encouraging dialog and teamwork
 - limiting technical debt where ever possible 
 
-## project requirements 
+### project requirements 
 - must have the ability to turn on and off all none essential features. 
 - all functions, typs, methods and tests must be documented no exceptions 
 - user must be able to export/import the base model as data. 
