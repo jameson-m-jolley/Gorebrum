@@ -22,9 +22,9 @@ Also, take a look at the project charter to learn more about our mission
 To deliver a viable innovative framework for creating the next generation of AIs, this project does not mind being a ginny pig for unconventional ideas. Our mission is to bring new technology to the hands of developers and to do so will grace and elegance with a minimal barrier to entry. 
 
 ## project values 
--respecting user privacy
--maintaining an open and welcoming community
--encouraging dialog and teamwork
+- respecting user privacy
+- maintaining an open and welcoming community
+- encouraging dialog and teamwork
 
 ## project requirements 
 
