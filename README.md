@@ -17,3 +17,12 @@ Also, take a look at the project charter to learn more about our mission
 
 # project charter
 
+- mission 
+
+To deliver a viable innovative framework for creating the next generation of AIs, this project dose not mind being a ginny pig for unconventional ideas. Our mission it to bring new technology to the hands of developers and to do so will grace and elegance. 
+
+- project values 
+
+
+- project requirements 
+
