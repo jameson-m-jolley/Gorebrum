@@ -30,6 +30,7 @@ To deliver a viable innovative framework for creating the next generation of AIs
 ## project requirements 
 - must have the ability to turn on and off all none essential features. 
 - all functions, typs, methods and tests must be documented no exceptions 
+- user must be able to export the base model as data. 
 
 
 
