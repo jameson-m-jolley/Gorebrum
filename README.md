@@ -1,6 +1,6 @@
 # Gosor
 
-Gosor is an AI framework that focuses on a highly concurrent approach with go routines. We also believe in being able to export and import your model and use them elsewhere. 
+Gosor is an AI framework written in the go programming language, which focuses on a highly concurrent and flexible approach with go routines and exportable AI models
 
 
 # project status: 
@@ -29,7 +29,7 @@ To deliver a viable innovative framework for creating the next generation of AIs
 
 ### project requirements 
 - must have the ability to turn on and off all none essential features. 
-- all functions, typs, methods and tests must be documented no exceptions 
+- all functions, types, methods, and tests must be documented no exceptions 
 - user must be able to export/import the base model as data. 
 
 
