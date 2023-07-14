@@ -6,6 +6,11 @@
 # project status: 
 meme/not functional.
 
+### Key planned features 
+- real-time actor-based perceptions: not functional
+- GPU compute: not functional
+- exportable models: not functional
+
 # getting started 
 You can't 
 
