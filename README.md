@@ -1,6 +1,6 @@
-# Gosor
+#  Gorebrum
 
-Gosor is a open source AI framework written in the go programming language, which focuses on a highly concurrent and flexible approach with go routines and exportable AI models
+ Gorebrum is a open source AI framework written in the go programming language, which focuses on a highly concurrent and flexible approach with go routines and exportable AI models
 
 
 # project status: 
