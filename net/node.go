@@ -26,7 +26,8 @@ type Node struct {
 
 // method for computing the output of a node
 func (n Node) Compute_node() float64 {
-	return Activation_functions[n.activation](mat.Dot(n.inputs, n.weights) + n.bias)
+	// hash of actavation functions sored in the ./activation.go file this is done to sapport diffrent actavation functions throught out the network of layer level
+	return Node_Activation_Functions[n.activation](mat.Dot(n.inputs, n.weights)+n.bias, n)
 }
 
 // makes a new node
