@@ -31,32 +31,9 @@ func Log(x float64, n Node) float64 {
 	return n.output
 }
 
-/*
-█▀▀ ▀▄▀ █▀█ █▀█ █▄░█ █▀▀ █▄░█ ▀█▀ █ ▄▀█ ▀█▀ █ █▀█ █▄░█
-██▄ █░█ █▀▀ █▄█ █░▀█ ██▄ █░▀█ ░█░ █ █▀█ ░█░ █ █▄█ █░▀█
-*/
-
 // raw exponentiation via math.E
 func ExpE(x float64, n Node) float64 {
 	n.output = math.Pow(math.E, x)
-	return n.output
-}
-
-// raw exponentiation via math.SqrtE
-func ExpSqrtE(x float64, n Node) float64 {
-	n.output = math.Pow(math.SqrtE, x)
-	return n.output
-}
-
-// raw exponentiation via PI
-func ExpPi(x float64, n Node) float64 {
-	n.output = math.Pow(math.Pi, x)
-	return n.output
-}
-
-// raw exponentiation via PI
-func ExpSqrtPi(x float64, n Node) float64 {
-	n.output = math.Pow(math.SqrtPi, x)
 	return n.output
 }
 
@@ -82,6 +59,15 @@ var Node_Activation_Functions map[string]func(float64, Node) float64 = map[strin
 	"ExpSqrtPi": ExpSqrtPi,
 }
 
+/*
+█░█ ▄▀█ █▀ █░█ █▀▄▀█ ▄▀█ █▀█
+█▀█ █▀█ ▄█ █▀█ █░▀░█ █▀█ █▀▀
+*/
+var Layer_Activation_Functions map[string]func(*mat.VecDense, Layer) *mat.VecDense = map[string]func(x *mat.VecDense, L Layer) *mat.VecDense{
+	"LayerLU": LayerLU,
+	"SoftMax": SoftMax,
+}
+
 // Layer_based
 // soft max
 
@@ -89,17 +75,36 @@ func SoftMax(x *mat.VecDense, L Layer) *mat.VecDense {
 	return x
 }
 
-/*
-█░█ ▄▀█ █▀ █░█ █▀▄▀█ ▄▀█ █▀█
-█▀█ █▀█ ▄█ █▀█ █░▀░█ █▀█ █▀▀
-*/
-
 func LayerLU(x *mat.VecDense, L Layer) *mat.VecDense {
 	L.output = x
 	return L.output
 }
 
-var Layer_Activation_Functions map[string]func(*mat.VecDense, Layer) *mat.VecDense = map[string]func(x *mat.VecDense, L Layer) *mat.VecDense{
-	"LayerLU": LayerLU,
-	"SoftMax": SoftMax,
+//experamental activation
+
+// raw exponentiation via math.SqrtE
+func ExpSqrtE(x float64, n Node) float64 {
+	n.output = math.Pow(math.SqrtE, x)
+	return n.output
+}
+
+// raw exponentiation via PI
+func ExpPi(x float64, n Node) float64 {
+	n.output = math.Pow(math.Pi, x)
+	return n.output
+}
+
+// raw exponentiation via PI
+func ExpSqrtPi(x float64, n Node) float64 {
+	n.output = math.Pow(math.SqrtPi, x)
+	return n.output
+}
+
+// the hailstone algorithom or Collatz conjecture https://en.wikipedia.org/wiki/Collatz_conjecture
+func Collatz(x float64, n Node) float64 {
+	if math.Mod(x, 2) == 0 {
+		return x / 2
+	} else {
+		return 3*x + 1
+	}
 }

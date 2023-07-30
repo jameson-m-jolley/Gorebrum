@@ -1,6 +1,10 @@
 package net
 
-import "gonum.org/v1/gonum/mat"
+import (
+	"fmt"
+
+	"gonum.org/v1/gonum/mat"
+)
 
 /*
 ██╗░░░░░░█████╗░██╗░░░██╗███████╗██████╗░
@@ -19,9 +23,6 @@ type Layer struct {
 }
 
 // getter
-func (L *Layer) Get_inputs() *mat.VecDense {
-	return L.inputs
-}
 
 func (L *Layer) Get_nodes() []*Node {
 	return L.nodes
@@ -51,4 +52,32 @@ func (L Layer) Compute_Layer() *mat.VecDense {
 	return Layer_Activation_Functions[L.activation](L.output, L)
 }
 
-//
+// this is a funtion to add new nodes to the layer
+func New_Layer(length int, activation string) *Layer {
+	// this needs to gen a new layer and assign the val of 0 to all the values so that the model can be trainded properly
+	// buffer for the nodes that need to be made
+	node_buff := make([]*Node, 0, length)
+
+	for i := 0; i <= length; i++ {
+		node_buff = append(node_buff, Newnode(make([]float64, length), 0, activation))
+	}
+	return &Layer{nodes: node_buff, activation: activation}
+}
+
+// display the info for a layer with
+func (L Layer) Display_info() {
+	fmt.Printf(`
+---------------------------------------------------------------------
+
+██╗░░░░░░█████╗░██╗░░░██╗███████╗██████╗░
+██║░░░░░██╔══██╗╚██╗░██╔╝██╔════╝██╔══██╗
+██║░░░░░███████║░╚████╔╝░█████╗░░██████╔╝
+██║░░░░░██╔══██║░░╚██╔╝░░██╔══╝░░██╔══██╗
+███████╗██║░░██║░░░██║░░░███████╗██║░░██║
+in: %v
+nodes: %v
+out: %v
+activation_function: %s
+
+`, L.inputs, L.Get_nodes(), L.Get_output(), L.activation)
+}

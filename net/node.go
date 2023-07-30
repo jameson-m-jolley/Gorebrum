@@ -18,11 +18,12 @@ import (
 // this is the struct for creating nodes
 // this will eventualy be a nural network
 type Node struct {
-	inputs     *mat.VecDense
-	weights    *mat.VecDense
-	bias       float64
-	activation string
-	output     float64
+	inputs       *mat.VecDense
+	weights      *mat.VecDense
+	bias         float64
+	activation   string
+	output       float64
+	parent_layer *Layer
 }
 
 // geters
@@ -47,6 +48,10 @@ func (n Node) Get_output() float64 {
 	return n.output
 }
 
+func (n Node) Get_parent_layer() *Layer {
+	return n.parent_layer
+}
+
 // setters
 func (n *Node) Set_inputs(inputs *mat.VecDense) {
 	n.inputs = inputs
@@ -66,6 +71,12 @@ func (n *Node) Set_activation(activation string) {
 
 func (n *Node) Set_output(output float64) {
 	n.output = output
+}
+
+// this sets the node inside a layer at the index if intdex>len(Layer.nodes) the func will error
+// use at your one risk this can brake the NN
+func (n *Node) Set_parent_layer(Layer *Layer, index int) {
+	Layer.nodes[index] = n
 }
 
 // method for computing the output of a node

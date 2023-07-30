@@ -26,4 +26,8 @@ func main() {
 	print_logo()
 	anode := net.Newnode([]float64{1.8, 8.3, 7.1}, 4.5, "Log")
 	anode.Display_info()
+
+	alayer := net.New_Layer(2, "ReLU")
+	alayer.Display_info()
+
 }
