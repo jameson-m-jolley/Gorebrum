@@ -102,9 +102,17 @@ func ExpSqrtPi(x float64, n Node) float64 {
 
 // the hailstone algorithom or Collatz conjecture https://en.wikipedia.org/wiki/Collatz_conjecture
 func Collatz(x float64, n Node) float64 {
-	if math.Mod(x, 2) == 0 {
-		return x / 2
+
+	// we half to tuncate the val so that the val can be an int then at the end of the funtion the floating point desapales are added to the val
+	newx := math.Round(x)
+	dif := x - newx
+
+	if math.Mod(newx, 2) == 0 {
+		newx = newx / 2
 	} else {
-		return 3*x + 1
+		newx = 3*newx + 1
 	}
+
+	return newx + dif
+
 }

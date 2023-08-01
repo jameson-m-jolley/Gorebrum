@@ -27,7 +27,13 @@ func main() {
 	anode := net.Newnode([]float64{1.8, 8.3, 7.1}, 4.5, "Log")
 	anode.Display_info()
 
-	alayer := net.New_Layer(2, "ReLU")
+	alayer := net.New_Layer(5, 3, "ReLU")
 	alayer.Display_info()
+
+	alayer.Get_nodes()[2].Display_info()
+
+	network := net.NewNetwork(5, 5, 5, 2)
+	fmt.Print(network)
+	network.Display_Network()
 
 }

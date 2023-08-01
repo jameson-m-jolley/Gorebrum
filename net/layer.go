@@ -53,13 +53,13 @@ func (L Layer) Compute_Layer() *mat.VecDense {
 }
 
 // this is a funtion to add new nodes to the layer
-func New_Layer(length int, activation string) *Layer {
+func New_Layer(length int, inputsLen int, activation string) *Layer {
 	// this needs to gen a new layer and assign the val of 0 to all the values so that the model can be trainded properly
 	// buffer for the nodes that need to be made
 	node_buff := make([]*Node, 0, length)
 
-	for i := 0; i <= length; i++ {
-		node_buff = append(node_buff, Newnode(make([]float64, length), 0, activation))
+	for i := 1; i <= length; i++ {
+		node_buff = append(node_buff, Newnode(make([]float64, inputsLen), 0, activation))
 	}
 	return &Layer{nodes: node_buff, activation: activation}
 }
@@ -69,7 +69,7 @@ func (L Layer) Display_info() {
 	fmt.Printf(`
 ---------------------------------------------------------------------
 
-██╗░░░░░░█████╗░██╗░░░██╗███████╗██████╗░
+██╗░░░░░░█████╗░██╗░░░██╗███████╗██████╗░              
 ██║░░░░░██╔══██╗╚██╗░██╔╝██╔════╝██╔══██╗
 ██║░░░░░███████║░╚████╔╝░█████╗░░██████╔╝
 ██║░░░░░██╔══██║░░╚██╔╝░░██╔══╝░░██╔══██╗
