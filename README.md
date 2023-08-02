@@ -37,5 +37,9 @@ To deliver a viable innovative library for creating the next generation of AIs, 
 - all functions, types, methods, and tests must be documented no exceptions 
 - user must be able to export/import the base model as data. 
 
+#### Current goal for 2023 
 
+The goal at the moment is to get liberty to a usable state, we will then focus on standardizing the format in which you interact with the model with a small API. As of 2023 performance is not a concern to me because if that's what you want, go to a more mature library. 
+
+My goal at the moment is to understand neural networks at a deep level and program them in a way I find intuitive and reusable when the project is more developed and has users I will focus on performance. I am also a college student studying Computer Sciences who want to participate in active research in deep learning this project will be subject to some interesting experiments all of which should be optional features unless impractical. 
 
