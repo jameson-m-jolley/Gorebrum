@@ -20,6 +20,7 @@ type Layer struct {
 	nodes      []*Node
 	output     *mat.VecDense
 	activation string
+ parent_network *Gorebrum
 }
 
 // getter
