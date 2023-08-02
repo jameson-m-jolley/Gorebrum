@@ -1,13 +1,13 @@
 #  Gorebrum
 
- Gorebrum is an open-source AI library written in the go programming language, which focuses on a highly concurrent and flexible approach with go routines and exportable AI models
+ Gorebrum is an open-source AI library written in the go programming language, which focuses on a highly concurrent and flexible approach and exportable AI models
 
 
 # project status: 
 meme/not functional.
 
 ### Key planned features 
-- concurrency 
+- concurrency: not functional 
 - GPU compute: not functional
 - exportable models: not functional
 
