@@ -16,10 +16,11 @@ import (
 */
 
 type Layer struct {
-	inputs     *mat.VecDense
-	nodes      []*Node
-	output     *mat.VecDense
-	activation string
+	inputs         *mat.VecDense
+	nodes          []*Node
+	output         *mat.VecDense
+	activation     string
+	parent_network *Gorebrum
 }
 
 // getter
@@ -45,11 +46,13 @@ func (L *Layer) Set_inputs(inputs *mat.VecDense) {
 //other
 
 // Compute_Layer
-func (L Layer) Compute_Layer() *mat.VecDense {
+func (L Layer) Compute_Layer() {
 	for i := 0; i < len(L.nodes); i++ {
-		L.output.SetVec(i, L.nodes[i].Compute_node(L.inputs))
+		//
+		L.nodes[i].Compute_node(L.inputs)
+		L.output.SetVec(i, L.nodes[i].Get_output())
 	}
-	return Layer_Activation_Functions[L.activation](L.output, L)
+	L.Set_inputs(Layer_Activation_Functions[L.activation](L.output, L))
 }
 
 // this is a funtion to add new nodes to the layer
@@ -58,10 +61,12 @@ func New_Layer(length int, inputsLen int, activation string) *Layer {
 	// buffer for the nodes that need to be made
 	node_buff := make([]*Node, 0, length)
 
+	Layer := &Layer{nodes: node_buff, activation: activation}
+
 	for i := 1; i <= length; i++ {
-		node_buff = append(node_buff, Newnode(make([]float64, inputsLen), 0, activation))
+		node_buff = append(node_buff, New_Node(make([]float64, inputsLen), 0, activation, Layer))
 	}
-	return &Layer{nodes: node_buff, activation: activation}
+	return Layer
 }
 
 // display the info for a layer with

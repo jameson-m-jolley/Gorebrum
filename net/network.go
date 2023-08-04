@@ -30,7 +30,7 @@ func (net Gorebrum) Get_layers() []*Layer {
 // setters for the network
 
 // this is the functon that makes a new network
-func NewNetwork(
+func New_Network(
 	in_dimensions int,
 	width int,
 	depth int,

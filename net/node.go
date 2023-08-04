@@ -80,19 +80,20 @@ func (n *Node) Set_parent_layer(Layer *Layer, index int) {
 }
 
 // method for computing the output of a node
-func (n Node) Compute_node(inputs *mat.VecDense) float64 {
+func (n Node) Compute_node(inputs *mat.VecDense) {
 	//sets the inputs of the node
 	n.Set_inputs(inputs)
 	// hash of actavation functions sored in the ./activation.go file this is done to sapport diffrent actavation functions throught out the network of layer level
-	return Node_Activation_Functions[n.activation](mat.Dot(n.inputs, n.weights)+n.bias, n)
+	n.Set_output(Node_Activation_Functions[n.activation](mat.Dot(n.inputs, n.weights)+n.bias, n))
 }
 
 // makes a new node
-func Newnode(weights []float64, bias float64, activation string) *Node {
+func New_Node(weights []float64, bias float64, activation string, parent_layer *Layer) *Node {
 	return &Node{
-		weights:    mat.NewVecDense(len(weights), weights),
-		bias:       bias,
-		activation: activation}
+		weights:      mat.NewVecDense(len(weights), weights),
+		bias:         bias,
+		activation:   activation,
+		parent_layer: parent_layer}
 }
 
 func (n Node) Display_info() {
