@@ -15,12 +15,14 @@ import (
 ╚══════╝╚═╝░░╚═╝░░░╚═╝░░░╚══════╝╚═╝░░╚═╝
 */
 
+// this is the structur of the layers in the network
+// the goal is to apstrat all the
 type Layer struct {
-	inputs         *mat.VecDense
-	nodes          []*Node
 	output         *mat.VecDense
+	nodes          []*Node
 	activation     string
 	parent_network *Gorebrum
+	index          int
 }
 
 // getter
@@ -29,44 +31,34 @@ func (L *Layer) Get_nodes() []*Node {
 	return L.nodes
 }
 
-func (L *Layer) Get_output() *mat.VecDense {
-	return L.output
-}
-
 func (L *Layer) Get_activation() string {
 	return L.activation
 }
 
 // setters
 
-func (L *Layer) Set_inputs(inputs *mat.VecDense) {
-	L.inputs = inputs
-}
-
-//other
-
 // Compute_Layer
 func (L Layer) Compute_Layer() {
-	for i := 0; i < len(L.nodes); i++ {
-		//
-		L.nodes[i].Compute_node(L.inputs)
-		L.output.SetVec(i, L.nodes[i].Get_output())
+	for i := 0; i < L.parent_network.depth; i++ {
+		L.nodes[i].Compute_node()
 	}
-	L.Set_inputs(Layer_Activation_Functions[L.activation](L.output, L))
+	Layer_Activation_Functions[L.activation](L.output, L)
 }
 
 // this is a funtion to add new nodes to the layer
-func New_Layer(length int, inputsLen int, activation string) *Layer {
+func (net *Gorebrum) New_Layer(length int, inputsLen int, activation string, index int) {
 	// this needs to gen a new layer and assign the val of 0 to all the values so that the model can be trainded properly
-	// buffer for the nodes that need to be made
-	node_buff := make([]*Node, 0, length)
-
-	Layer := &Layer{nodes: node_buff, activation: activation}
-
-	for i := 1; i <= length; i++ {
-		node_buff = append(node_buff, New_Node(make([]float64, inputsLen), 0, activation, Layer))
+	Layer := &Layer{
+		nodes:          make([]*Node, length),
+		activation:     activation,
+		index:          index,
+		parent_network: net,
+		output:         mat.NewVecDense(length, make([]float64, length)),
 	}
-	return Layer
+	for i := 0; i <= length-1; i++ {
+		Layer.New_Node(make([]float64, inputsLen), 0, activation, i)
+	}
+	net.layers[index] = Layer
 }
 
 // display the info for a layer with
@@ -79,10 +71,8 @@ func (L Layer) Display_info() {
 ██║░░░░░███████║░╚████╔╝░█████╗░░██████╔╝
 ██║░░░░░██╔══██║░░╚██╔╝░░██╔══╝░░██╔══██╗
 ███████╗██║░░██║░░░██║░░░███████╗██║░░██║
-in: %v
 nodes: %v
-out: %v
 activation_function: %s
 
-`, L.inputs, L.Get_nodes(), L.Get_output(), L.activation)
+`, L.Get_nodes(), L.activation)
 }

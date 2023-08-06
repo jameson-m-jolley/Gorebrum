@@ -26,8 +26,14 @@ func (net Gorebrum) Get_input() *mat.VecDense {
 func (net Gorebrum) Get_layers() []*Layer {
 	return net.layers
 }
+func (net Gorebrum) Get_layer(index int) *Layer {
+	return net.layers[index]
+}
 
 // setters for the network
+func (net *Gorebrum) Set_Layer(index int, layer *Layer) {
+	net.layers[index] = layer
+}
 
 // this is the functon that makes a new network
 func New_Network(
@@ -35,23 +41,33 @@ func New_Network(
 	width int,
 	depth int,
 	out_dimensions int) *Gorebrum {
-
-	//buffer fore the layers
-	Layer_buff := make([]*Layer, 0, depth)
-	for i := 1; i <= width; i++ {
-		Layer_buff = append(Layer_buff, New_Layer(depth, depth, "ReLU"))
+	//creates a new network and creates the layers and nodes
+	network := &Gorebrum{
+		in_dimensions:  in_dimensions,
+		out_dimensions: out_dimensions,
+		width:          width,
+		depth:          depth,
+		layers:         make([]*Layer, width),
+		input:          mat.NewVecDense(in_dimensions, make([]float64, in_dimensions)),
+		output:         mat.NewVecDense(out_dimensions, make([]float64, out_dimensions)),
 	}
-	// sets the frist and last layers the the right sape
-	Layer_buff[0] = New_Layer(depth, in_dimensions, "ReLU")
-	Layer_buff[width-1] = New_Layer(out_dimensions, depth, "ReLU")
-
-	return &Gorebrum{in_dimensions: in_dimensions, out_dimensions: out_dimensions, width: width, depth: depth, layers: Layer_buff}
-
+	for i := 0; i <= width-1; i++ {
+		if i == 0 {
+			network.New_Layer(depth, in_dimensions, "ReLU", i)
+		} else if i == width-1 {
+			network.New_Layer(out_dimensions, depth, "ReLU", i)
+		} else {
+			network.New_Layer(depth, depth, "ReLU", i)
+		}
+	}
+	return network
 }
 
 // the farward pass for the network
 func (net *Gorebrum) Computer_fraward_pass() {
-
+	for i := 0; i < net.width-1; i++ {
+		net.layers[i].Compute_Layer()
+	}
 }
 
 // this displays the network in all its glory and wonder
@@ -75,4 +91,16 @@ depth          :%v
 out_dimensions :%v
 in_dimensions  :%v
 `, net.input, net.layers, net.output, net.width, net.depth, net.out_dimensions, net.in_dimensions)
+
+	if net.depth <= 50 {
+		nns := "_______________________Network__________________________\n"
+		for i := 0; i < len(net.layers); i++ {
+			nns += fmt.Sprint(i) + ":"
+			for b := 0; b < len(net.layers[i].nodes); b++ {
+				nns += "|" + fmt.Sprint(net.layers[i].nodes[b].output) + "|"
+			}
+			nns += "\n"
+		}
+		fmt.Print(nns)
+	}
 }

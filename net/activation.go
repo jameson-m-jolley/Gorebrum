@@ -15,7 +15,7 @@ all
 */
 
 // rectified linear: takes a float64 as var x and returns 0 if input < 0 else returns var x
-func ReLU(x float64, n Node) float64 {
+func ReLU(x float64, n *Node) float64 {
 	if x < 0 {
 		n.output = 0
 		return 0
@@ -26,13 +26,13 @@ func ReLU(x float64, n Node) float64 {
 }
 
 // natral log: takes a float64 as var x and returns 0 if input < 0 else returns var log10(x)
-func Log(x float64, n Node) float64 {
+func Log(x float64, n *Node) float64 {
 	n.output = math.Log10(x)
 	return n.output
 }
 
 // raw exponentiation via math.E
-func ExpE(x float64, n Node) float64 {
+func ExpE(x float64, n *Node) float64 {
 	n.output = math.Pow(math.E, x)
 	return n.output
 }
@@ -42,14 +42,14 @@ func ExpE(x float64, n Node) float64 {
 █▀█ █▀█ ▄█ █▀█ █░▀░█ █▀█ █▀▀
 */
 
-func NodeLU(x float64, n Node) float64 {
+func NodeLU(x float64, n *Node) float64 {
 	n.output = x
 	return n.output
 }
 
 // dict to map funtions for the Node obj, this is done for dinamic calls to diffrent func.
 // all func must be plan func and not methods with the parma(x float64, n Node) or cannot be placed inside the map
-var Node_Activation_Functions map[string]func(float64, Node) float64 = map[string]func(float64, Node) float64{
+var Node_Activation_Functions map[string]func(float64, *Node) float64 = map[string]func(float64, *Node) float64{
 	"NodeLU":    NodeLU,
 	"ReLU":      ReLU,
 	"Log":       Log,
@@ -63,7 +63,7 @@ var Node_Activation_Functions map[string]func(float64, Node) float64 = map[strin
 █░█ ▄▀█ █▀ █░█ █▀▄▀█ ▄▀█ █▀█
 █▀█ █▀█ ▄█ █▀█ █░▀░█ █▀█ █▀▀
 */
-var Layer_Activation_Functions map[string]func(*mat.VecDense, Layer) *mat.VecDense = map[string]func(x *mat.VecDense, L Layer) *mat.VecDense{
+var Layer_Activation_Functions map[string]func(*mat.VecDense, Layer) = map[string]func(x *mat.VecDense, L Layer){
 	"LayerLU": LayerLU,
 	"SoftMax": SoftMax,
 }
@@ -71,37 +71,34 @@ var Layer_Activation_Functions map[string]func(*mat.VecDense, Layer) *mat.VecDen
 // Layer_based
 // soft max
 
-func SoftMax(x *mat.VecDense, L Layer) *mat.VecDense {
-	return x
+func SoftMax(x *mat.VecDense, L Layer) {
 }
 
-func LayerLU(x *mat.VecDense, L Layer) *mat.VecDense {
-	L.output = x
-	return L.output
+func LayerLU(x *mat.VecDense, L Layer) {
 }
 
 //experamental activation
 
 // raw exponentiation via math.SqrtE
-func ExpSqrtE(x float64, n Node) float64 {
+func ExpSqrtE(x float64, n *Node) float64 {
 	n.output = math.Pow(math.SqrtE, x)
 	return n.output
 }
 
 // raw exponentiation via PI
-func ExpPi(x float64, n Node) float64 {
+func ExpPi(x float64, n *Node) float64 {
 	n.output = math.Pow(math.Pi, x)
 	return n.output
 }
 
 // raw exponentiation via PI
-func ExpSqrtPi(x float64, n Node) float64 {
+func ExpSqrtPi(x float64, n *Node) float64 {
 	n.output = math.Pow(math.SqrtPi, x)
 	return n.output
 }
 
 // the hailstone algorithom or Collatz conjecture https://en.wikipedia.org/wiki/Collatz_conjecture
-func Collatz(x float64, n Node) float64 {
+func Collatz(x float64, n *Node) float64 {
 
 	// we half to tuncate the val so that the val can be an int then at the end of the funtion the floating point desapales are added to the val
 	newx := math.Round(x)
