@@ -35,6 +35,16 @@ func (net *Gorebrum) Set_Layer(index int, layer *Layer) {
 	net.layers[index] = layer
 }
 
+// sets an input to the seme vec that is passed to it
+func (net *Gorebrum) Set_inputs(inputs []float64) {
+	if net.in_dimensions == len(inputs) {
+		net.input = mat.NewVecDense(net.in_dimensions, inputs)
+	} else {
+		panic("length of inputs is out of range len(inputs) must be == net.in_dimensions")
+	}
+
+}
+
 // this is the functon that makes a new network
 func New_Network(
 	in_dimensions int,
@@ -53,11 +63,11 @@ func New_Network(
 	}
 	for i := 0; i <= width-1; i++ {
 		if i == 0 {
-			network.New_Layer(depth, in_dimensions, "ReLU", i)
+			network.New_Layer(depth, in_dimensions, "NA", i)
 		} else if i == width-1 {
-			network.New_Layer(out_dimensions, depth, "ReLU", i)
+			network.New_Layer(out_dimensions, depth, "NA", i)
 		} else {
-			network.New_Layer(depth, depth, "ReLU", i)
+			network.New_Layer(depth, depth, "NA", i)
 		}
 	}
 	return network
@@ -65,7 +75,7 @@ func New_Network(
 
 // the farward pass for the network
 func (net *Gorebrum) Computer_fraward_pass() {
-	for i := 0; i < net.width-1; i++ {
+	for i := 0; i < net.width; i++ {
 		net.layers[i].Compute_Layer()
 	}
 }

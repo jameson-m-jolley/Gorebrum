@@ -2,6 +2,7 @@ package net
 
 import (
 	"fmt"
+	"math/rand"
 
 	"gonum.org/v1/gonum/mat"
 )
@@ -73,6 +74,17 @@ func (n *Node) Set_output(output float64) {
 	n.parent_layer.output.SetVec(n.index, n.output)
 }
 
+// this sets the val of each poit in the vec to be a rand.Float64
+func (n *Node) scrambler(i int) {
+	if i < n.weights.Len() {
+		n.weights.SetVec(i, rand.Float64())
+		i++
+		go n.scrambler(i)
+	} else {
+		n.Set_bias(rand.Float64())
+	}
+}
+
 // method for computing the output of a node
 func (n *Node) Compute_node() {
 	//updates the inputs
@@ -90,6 +102,7 @@ func (L *Layer) New_Node(weights []float64, bias float64, activation string, i i
 		parent_layer: L,
 		index:        i}
 	L.nodes[i].Compute_node()
+	L.nodes[i].scrambler(0)
 
 }
 

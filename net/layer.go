@@ -39,7 +39,7 @@ func (L *Layer) Get_activation() string {
 
 // Compute_Layer
 func (L Layer) Compute_Layer() {
-	for i := 0; i < L.parent_network.depth; i++ {
+	for i := 0; i < len(L.nodes); i++ {
 		L.nodes[i].Compute_node()
 	}
 	Layer_Activation_Functions[L.activation](L.output, L)
@@ -48,6 +48,7 @@ func (L Layer) Compute_Layer() {
 // this is a funtion to add new nodes to the layer
 func (net *Gorebrum) New_Layer(length int, inputsLen int, activation string, index int) {
 	// this needs to gen a new layer and assign the val of 0 to all the values so that the model can be trainded properly
+
 	Layer := &Layer{
 		nodes:          make([]*Node, length),
 		activation:     activation,
@@ -56,7 +57,7 @@ func (net *Gorebrum) New_Layer(length int, inputsLen int, activation string, ind
 		output:         mat.NewVecDense(length, make([]float64, length)),
 	}
 	for i := 0; i <= length-1; i++ {
-		Layer.New_Node(make([]float64, inputsLen), 0, activation, i)
+		Layer.New_Node(make([]float64, inputsLen), 0, "ReLU", i)
 	}
 	net.layers[index] = Layer
 }

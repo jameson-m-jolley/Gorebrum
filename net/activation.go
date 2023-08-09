@@ -64,7 +64,7 @@ var Node_Activation_Functions map[string]func(float64, *Node) float64 = map[stri
 █▀█ █▀█ ▄█ █▀█ █░▀░█ █▀█ █▀▀
 */
 var Layer_Activation_Functions map[string]func(*mat.VecDense, Layer) = map[string]func(x *mat.VecDense, L Layer){
-	"LayerLU": LayerLU,
+	"NA":      NA,
 	"SoftMax": SoftMax,
 }
 
@@ -74,7 +74,7 @@ var Layer_Activation_Functions map[string]func(*mat.VecDense, Layer) = map[strin
 func SoftMax(x *mat.VecDense, L Layer) {
 }
 
-func LayerLU(x *mat.VecDense, L Layer) {
+func NA(x *mat.VecDense, L Layer) {
 }
 
 //experamental activation
