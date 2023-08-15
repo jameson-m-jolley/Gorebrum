@@ -28,7 +28,13 @@ type Node struct {
 }
 
 // geters
+// this is done because I want the option in the future to control how models are
+// interact with at a base level
+// I do not intend to use dot notation to set and extract variables i aslo do not want
+// the fields of the structs to be visible to external programs
 
+// this function grabs the outputs from the layer before it.
+// unless it is the frist layer, in that case the input for the network is used
 func (n Node) Get_input() *mat.VecDense {
 	if n.parent_layer.index == 0 {
 		return n.parent_layer.parent_network.input
@@ -75,6 +81,7 @@ func (n *Node) Set_output(output float64) {
 }
 
 // this sets the val of each poit in the vec to be a rand.Float64
+// this only needs to be called at the creation of the NN
 func (n *Node) scrambler(i int) {
 	if i < n.weights.Len() {
 		n.weights.SetVec(i, rand.Float64())
@@ -89,7 +96,7 @@ func (n *Node) scrambler(i int) {
 func (n *Node) Compute_node() {
 	//updates the inputs
 	// hash of actavation functions sored in the ./activation.go file this is done to sapport diffrent actavation functions throught out the network of layer level
-	n.Set_output(Node_Activation_Functions[n.activation](mat.Dot(n.Get_input(), n.weights)+n.bias, n))
+	n.Set_output(Node_Activation_Functions[n.activation](mat.Dot(n.Get_input(), n.Get_weights())+n.bias, n))
 }
 
 // makes a new node

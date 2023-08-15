@@ -26,6 +26,10 @@ type Layer struct {
 }
 
 // getter
+// this is done because I want the option in the future to control how models are
+// interact with at a base level
+// I do not intend to use dot notation to set and extract variables i aslo do not want
+// the fields of the structs to be visible to external programs
 
 func (L *Layer) Get_nodes() []*Node {
 	return L.nodes
@@ -74,6 +78,7 @@ func (L Layer) Display_info() {
 ███████╗██║░░██║░░░██║░░░███████╗██║░░██║
 nodes: %v
 activation_function: %s
+outputs: %v
 
-`, L.Get_nodes(), L.activation)
+`, L.Get_nodes(), L.activation, L.output)
 }

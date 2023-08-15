@@ -16,7 +16,12 @@ type Gorebrum struct {
 	in_dimensions  int
 }
 
-// getters for the network
+// getters
+// this is done because I want the option in the future to control how models are
+// interact with at a base level
+// I do not intend to use dot notation to set and extract variables i aslo do not want
+// the fields of the structs to be visible to external programs
+
 func (net Gorebrum) Get_output() *mat.VecDense {
 	return net.output
 }
@@ -45,7 +50,18 @@ func (net *Gorebrum) Set_inputs(inputs []float64) {
 
 }
 
-// this is the functon that makes a new network
+/*
+this is the functon that makes a new network,
+New_Network takes 4 variabels as int as fallows
+
+	in_dimensions int, (this is the length of the vector that is pasesed into the network)
+	width int, (the number of layers includeing the frist and last layers)
+	depth int, (the lenght of the vectors in the hidden layers)
+	out_dimensions int, (the length of the output layer)
+
+	the function will then return a *Gorebrum
+	the output layer will allwase be a softmax actavation
+*/
 func New_Network(
 	in_dimensions int,
 	width int,
@@ -63,10 +79,13 @@ func New_Network(
 	}
 	for i := 0; i <= width-1; i++ {
 		if i == 0 {
+			// frist layer
 			network.New_Layer(depth, in_dimensions, "NA", i)
 		} else if i == width-1 {
-			network.New_Layer(out_dimensions, depth, "NA", i)
+			// output layer
+			network.New_Layer(out_dimensions, depth, "SoftMax", i)
 		} else {
+			// hidden layers
 			network.New_Layer(depth, depth, "NA", i)
 		}
 	}
@@ -78,6 +97,12 @@ func (net *Gorebrum) Computer_fraward_pass() {
 	for i := 0; i < net.width; i++ {
 		net.layers[i].Compute_Layer()
 	}
+	net.Update_output()
+}
+
+// this updates the output for the network
+func (net *Gorebrum) Update_output() {
+	net.output = net.Get_layer(net.width - 1).output
 }
 
 // this displays the network in all its glory and wonder
