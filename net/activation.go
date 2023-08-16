@@ -103,11 +103,30 @@ var Layer_Activation_Functions map[string]func(*mat.VecDense, Layer) = map[strin
 // that the NN can be traned with the prodiction of how corect the model is
 func SoftMax(x *mat.VecDense, L Layer) {
 	for i := 0; i < x.Len(); i++ {
-		x.SetVec(i, math.Pow(math.E, x.AtVec(i)))
+
+		if x.AtVec(i) < 1e-7 {
+			x.SetVec(i, 1e-7)
+		} else if x.AtVec(i) > 1-1e-7 {
+			x.SetVec(i, 1-1e-7)
+		}
 	}
+
+	exponentiation(0, x)
+	// clip 0 vals
+
 	normalize(0, x, x.Norm(1))
 }
 
+// this is part of the soft max activation
+func exponentiation(i int, x *mat.VecDense) {
+	if i < x.Len() {
+		x.SetVec(i, math.Pow(math.E, x.AtVec(i)))
+		i++
+		exponentiation(i, x)
+	}
+}
+
+// this is part of the soft max activation
 func normalize(i int, x *mat.VecDense, norm float64) {
 	if i < x.Len() {
 		x.SetVec(i, x.AtVec(i)/norm)

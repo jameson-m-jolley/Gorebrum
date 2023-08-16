@@ -11,5 +11,6 @@ func main() {
 	network.Set_inputs([]float64{5, 2, 8.6})
 	network.Computer_fraward_pass()
 	network.Display_Network()
-	network.Get_layer(2).Display_info()
+
+	println(network.Compute_loss(0))
 }
