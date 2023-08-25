@@ -13,4 +13,5 @@ func main() {
 	network.Display_Network()
 
 	println(network.Compute_loss(0))
+	println(network.Compute_loss(1))
 }
