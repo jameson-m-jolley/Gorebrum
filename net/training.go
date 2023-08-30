@@ -3,9 +3,11 @@ package net
 //this will be the implamentation of traing the network
 
 type trainer struct {
-	inputs  [][]float64
-	outputs [][]float64
-	network *Gorebrum
+	inputs    [][]float64
+	outputs   [][]float64
+	network   *Gorebrum
+	hotvector int
+	loss      float64
 }
 
 // this creates a new training obj for training a model on a data set

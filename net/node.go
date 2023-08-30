@@ -16,15 +16,15 @@ import (
 ╚═╝░░╚══╝░╚════╝░╚═════╝░╚══════╝
 */
 
-// this is the struct for creating nodes
+// this is the struct for creating Nodes
 // this will eventualy be a nural network
 type Node struct {
-	weights      *mat.VecDense
-	bias         float64
-	activation   string
-	output       float64
-	parent_layer *Layer
-	index        int
+	Weights      *mat.VecDense
+	Bias         float64
+	Activation   string
+	Output       float64
+	parent_layer *Layer // remove this from the encodeing and fix it in the decode file
+	Index        int
 }
 
 // geters
@@ -33,83 +33,87 @@ type Node struct {
 // I do not intend to use dot notation to set and extract variables i aslo do not want
 // the fields of the structs to be visible to external programs
 
-// this function grabs the outputs from the layer before it.
+// this function grabs the Outputs from the layer before it.
 // unless it is the frist layer, in that case the input for the network is used
 func (n Node) Get_input() *mat.VecDense {
-	if n.parent_layer.index == 0 {
+	if n.parent_layer.Index == 0 {
 		return n.parent_layer.parent_network.input
 	} else {
-		return n.parent_layer.parent_network.layers[n.parent_layer.index-1].output
+		return n.parent_layer.parent_network.Layers[n.parent_layer.Index-1].Output
 	}
 }
 
-func (n Node) Get_weights() *mat.VecDense {
-	return n.weights
+func (n Node) Get_Weights() *mat.VecDense {
+	return n.Weights
 }
 
-func (n Node) Get_bias() float64 {
-	return n.bias
+func (n Node) Get_Bias() float64 {
+	return n.Bias
 }
 
-func (n Node) Get_activation() string {
-	return n.activation
+func (n Node) Get_Activation() string {
+	return n.Activation
 }
 
 func (n Node) Get_output() float64 {
-	return n.output
+	return n.Output
 }
 
 func (n Node) Get_parent_layer() *Layer {
 	return n.parent_layer
 }
 
-func (n *Node) Set_weights(weights *mat.VecDense) {
-	n.weights = weights
+func (n *Node) Set_Weights(Weights *mat.VecDense) {
+	n.Weights = Weights
 }
 
-func (n *Node) Set_bias(bias float64) {
-	n.bias = bias
+func (n *Node) Set_Bias(Bias float64) {
+	n.Bias = Bias
 }
 
-func (n *Node) Set_activation(activation string) {
-	n.activation = activation
+func (n *Node) Set_Activation(Activation string) {
+	n.Activation = Activation
 }
 
-func (n *Node) Set_output(output float64) {
-	n.output = output
-	n.parent_layer.output.SetVec(n.index, n.output)
+func (n *Node) Set_Output(Output float64) {
+	n.Output = Output
+	n.parent_layer.Output.SetVec(n.Index, n.Output)
+}
+
+func (n *Node) Set_parent_layer(Layer *Layer) {
+	n.parent_layer = Layer
 }
 
 // this sets the val of each poit in the vec to be a rand.Float64
 // this only needs to be called at the creation of the NN
 func (n *Node) scrambler(i int) {
-	if i < n.weights.Len() {
-		n.weights.SetVec(i, rand.Float64())
+	if i < n.Weights.Len() {
+		n.Weights.SetVec(i, rand.Float64())
 		i++
 		go n.scrambler(i)
 	} else {
-		n.Set_bias(rand.Float64())
+		n.Set_Bias(rand.Float64())
 	}
 }
 
-// method for computing the output of a node
+// method for computing the Output of a node
 func (n *Node) Compute_node() {
 	//updates the inputs
-	// hash of actavation functions sored in the ./activation.go file this is done to sapport diffrent actavation functions throught out the network of layer level
-	n.Set_output(Node_Activation_Functions[n.activation](mat.Dot(n.Get_input(), n.Get_weights())+n.bias, n))
+	// hash of actavation functions sored in the ./Activation.go file this is done to sapport diffrent actavation functions throught out the network of layer level
+	n.Set_Output(Node_Activation_Functions[n.Activation](mat.Dot(n.Get_input(), n.Get_Weights())+n.Bias, n))
 }
 
 // makes a new node
-func (L *Layer) New_Node(weights []float64, bias float64, activation string, i int) {
+func (L *Layer) New_Node(Weights []float64, Bias float64, Activation string, i int) {
 
-	L.nodes[i] = &Node{
-		weights:      mat.NewVecDense(len(weights), weights),
-		bias:         bias,
-		activation:   activation,
+	L.Nodes[i] = &Node{
+		Weights:      mat.NewVecDense(len(Weights), Weights),
+		Bias:         Bias,
+		Activation:   Activation,
 		parent_layer: L,
-		index:        i}
-	L.nodes[i].Compute_node()
-	L.nodes[i].scrambler(0)
+		Index:        i}
+	L.Nodes[i].Compute_node()
+	L.Nodes[i].scrambler(0)
 
 }
 
@@ -123,11 +127,11 @@ func (n Node) Display_info() {
 ██║╚████║██║░░██║██║░░██║██╔══╝░░
 ██║░╚███║╚█████╔╝██████╔╝███████╗
 ╚═╝░░╚══╝░╚════╝░╚═════╝░╚══════╝
-weights: %v
-bias: %f
+Weights: %v
+Bias: %f
 out: %f
-activation_function: %s
+Activation_function: %s
 
-`, n.weights, n.bias, n.Get_output(), n.activation)
+`, n.Weights, n.Bias, n.Get_output(), n.Activation)
 
 }

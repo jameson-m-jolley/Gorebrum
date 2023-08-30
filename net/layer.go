@@ -15,14 +15,14 @@ import (
 ╚══════╝╚═╝░░╚═╝░░░╚═╝░░░╚══════╝╚═╝░░╚═╝
 */
 
-// this is the structur of the layers in the network
+// this is the structur of the Layers in the network
 // the goal is to apstrat all the
 type Layer struct {
-	output         *mat.VecDense
-	nodes          []*Node
-	activation     string
-	parent_network *Gorebrum
-	index          int
+	Output         *mat.VecDense
+	Nodes          []*Node
+	Activation     string
+	parent_network *Gorebrum // remove this from the encodeing and fix it in the decode file
+	Index          int
 }
 
 // getter
@@ -31,39 +31,42 @@ type Layer struct {
 // I do not intend to use dot notation to set and extract variables i aslo do not want
 // the fields of the structs to be visible to external programs
 
-func (L *Layer) Get_nodes() []*Node {
-	return L.nodes
+func (L *Layer) Get_Nodes() []*Node {
+	return L.Nodes
 }
 
-func (L *Layer) Get_activation() string {
-	return L.activation
+func (L *Layer) Get_Activation() string {
+	return L.Activation
 }
 
 // setters
+func (L *Layer) Set_parent_network(parent_network *Gorebrum) {
+	L.parent_network = parent_network
+}
 
 // Compute_Layer
 func (L Layer) Compute_Layer() {
-	for i := 0; i < len(L.nodes); i++ {
-		L.nodes[i].Compute_node()
+	for i := 0; i < len(L.Nodes); i++ {
+		L.Nodes[i].Compute_node()
 	}
-	Layer_Activation_Functions[L.activation](L.output, L)
+	Layer_Activation_Functions[L.Activation](L.Output, L)
 }
 
-// this is a funtion to add new nodes to the layer
-func (net *Gorebrum) New_Layer(length int, inputsLen int, activation string, index int) {
+// this is a funtion to add new Nodes to the layer
+func (net *Gorebrum) New_Layer(length int, inputsLen int, Activation string, Index int) {
 	// this needs to gen a new layer and assign the val of 0 to all the values so that the model can be trainded properly
 
 	Layer := &Layer{
-		nodes:          make([]*Node, length),
-		activation:     activation,
-		index:          index,
+		Nodes:          make([]*Node, length),
+		Activation:     Activation,
+		Index:          Index,
 		parent_network: net,
-		output:         mat.NewVecDense(length, make([]float64, length)),
+		Output:         mat.NewVecDense(length, make([]float64, length)),
 	}
 	for i := 0; i <= length-1; i++ {
 		Layer.New_Node(make([]float64, inputsLen), 0, "ReLU", i)
 	}
-	net.layers[index] = Layer
+	net.Layers[Index] = Layer
 }
 
 // display the info for a layer with
@@ -76,9 +79,9 @@ func (L Layer) Display_info() {
 ██║░░░░░███████║░╚████╔╝░█████╗░░██████╔╝
 ██║░░░░░██╔══██║░░╚██╔╝░░██╔══╝░░██╔══██╗
 ███████╗██║░░██║░░░██║░░░███████╗██║░░██║
-nodes: %v
-activation_function: %s
-outputs: %v
+Nodes: %v
+Activation_function: %s
+Outputs: %v
 
-`, L.Get_nodes(), L.activation, L.output)
+`, L.Get_Nodes(), L.Activation, L.Output)
 }

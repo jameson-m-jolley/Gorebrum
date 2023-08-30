@@ -29,49 +29,49 @@ var Node_Activation_Functions map[string]func(float64, *Node) float64 = map[stri
 // rectified linear: takes a float64 as var x and returns 0 if input < 0 else returns var x
 func ReLU(x float64, n *Node) float64 {
 	if x < 0 {
-		n.output = 0
+		n.Output = 0
 		return 0
 	} else {
-		n.output = x
+		n.Output = x
 		return x
 	}
 }
 
 // natral log: takes a float64 as var x and returns 0 if input < 0 else returns var log10(x)
 func Log(x float64, n *Node) float64 {
-	n.output = math.Log10(x)
-	return n.output
+	n.Output = math.Log10(x)
+	return n.Output
 }
 
 // raw exponentiation via math.E
 func ExpE(x float64, n *Node) float64 {
-	n.output = math.Pow(math.E, x)
-	return n.output
+	n.Output = math.Pow(math.E, x)
+	return n.Output
 }
 
 func NodeLU(x float64, n *Node) float64 {
-	n.output = x
-	return n.output
+	n.Output = x
+	return n.Output
 }
 
 //experamental activation
 
 // raw exponentiation via math.SqrtE
 func ExpSqrtE(x float64, n *Node) float64 {
-	n.output = math.Pow(math.SqrtE, x)
-	return n.output
+	n.Output = math.Pow(math.SqrtE, x)
+	return n.Output
 }
 
 // raw exponentiation via PI
 func ExpPi(x float64, n *Node) float64 {
-	n.output = math.Pow(math.Pi, x)
-	return n.output
+	n.Output = math.Pow(math.Pi, x)
+	return n.Output
 }
 
 // raw exponentiation via PI
 func ExpSqrtPi(x float64, n *Node) float64 {
-	n.output = math.Pow(math.SqrtPi, x)
-	return n.output
+	n.Output = math.Pow(math.SqrtPi, x)
+	return n.Output
 }
 
 // the hailstone algorithom or Collatz conjecture https://en.wikipedia.org/wiki/Collatz_conjecture
@@ -99,9 +99,14 @@ var Layer_Activation_Functions map[string]func(*mat.VecDense, Layer) = map[strin
 // Layer_based
 // soft max
 
-// this function is intededed to be usesd for the output of the forward pass so
+// this function is intededed to be usesd for the Output of the forward pass so
 // that the NN can be traned with the prodiction of how corect the model is
 func SoftMax(x *mat.VecDense, L Layer) {
+
+	exponentiation(0, x)
+	// clip 0 vals
+	normalize(0, x, x.Norm(1))
+
 	for i := 0; i < x.Len(); i++ {
 
 		if x.AtVec(i) < 1e-7 {
@@ -111,10 +116,6 @@ func SoftMax(x *mat.VecDense, L Layer) {
 		}
 	}
 
-	exponentiation(0, x)
-	// clip 0 vals
-
-	normalize(0, x, x.Norm(1))
 }
 
 // this is part of the soft max activation
