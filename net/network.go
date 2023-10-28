@@ -4,7 +4,6 @@ import (
 	"encoding/gob"
 	"fmt"
 	"log"
-	"math"
 	"os"
 
 	"gonum.org/v1/gonum/mat"
@@ -107,13 +106,6 @@ func (N *Gorebrum) Computer_fraward_pass() {
 // this updates the Output for the network
 func (N *Gorebrum) Update_Output() {
 	N.Output = N.Get_layer(N.Width - 1).Output
-}
-
-// -log loss
-// computes the cross entropy loss at at the target vector
-func (N *Gorebrum) Compute_loss(vec int) float64 {
-	return -(math.Log(N.Output.AtVec(vec)))
-
 }
 
 // this displays the network in all its glory and wonder
