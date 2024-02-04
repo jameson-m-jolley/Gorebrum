@@ -20,6 +20,7 @@ import (
 // this will eventualy be a nural network
 type Node struct {
 	Weights      *mat.VecDense
+	inputs       *mat.VecDense // the field is kept private because it is not needed in the encodeing
 	Bias         float64
 	Activation   string
 	Output       float64
@@ -37,42 +38,55 @@ type Node struct {
 // unless it is the frist layer, in that case the input for the network is used
 func (n Node) Get_input() *mat.VecDense {
 	if n.parent_layer.Index == 0 {
+		n.inputs = n.parent_layer.parent_network.input
 		return n.parent_layer.parent_network.input
 	} else {
+		n.inputs = n.parent_layer.parent_network.Layers[n.parent_layer.Index-1].Output
 		return n.parent_layer.parent_network.Layers[n.parent_layer.Index-1].Output
 	}
 }
 
+// returns the weights of the node as a *mat.VecDence
 func (n Node) Get_Weights() *mat.VecDense {
 	return n.Weights
 }
 
+// returns the bias of the node
 func (n Node) Get_Bias() float64 {
 	return n.Bias
 }
 
+// reternds the activation of the network.
 func (n Node) Get_Activation() string {
 	return n.Activation
 }
 
+// returns the output of the node
 func (n Node) Get_output() float64 {
 	return n.Output
 }
 
+// returs the address of the layer that the node is a part of
 func (n Node) Get_parent_layer() *Layer {
 	return n.parent_layer
 }
 
+// sets the weights of the node to a *mat.VecDence
 func (n *Node) Set_Weights(Weights *mat.VecDense) {
 	n.Weights = Weights
 }
 
+// sets the Bias of a node to a float64
 func (n *Node) Set_Bias(Bias float64) {
 	n.Bias = Bias
 }
 
 func (n *Node) Set_Activation(Activation string) {
 	n.Activation = Activation
+}
+
+func (n *Node) Set_input(input *mat.VecDense) {
+	n.inputs = input
 }
 
 func (n *Node) Set_Output(Output float64) {
@@ -104,14 +118,21 @@ func (n *Node) Compute_node() {
 }
 
 // makes a new node
-func (L *Layer) New_Node(Weights []float64, Bias float64, Activation string, i int) {
 
-	L.Nodes[i] = &Node{
+func (L *Layer) New_Node(Weights []float64, Bias float64, Activation string, i int) {
+	//makes the new node in mem
+	node := &Node{
 		Weights:      mat.NewVecDense(len(Weights), Weights),
 		Bias:         Bias,
 		Activation:   Activation,
 		parent_layer: L,
 		Index:        i}
+	// if the len of the arry is less then the index of the arr we need to append  the new e
+	if len(L.Nodes) <= i {
+		L.Nodes = append(L.Nodes, node)
+	} else {
+		L.Nodes[i] = node
+	}
 	L.Nodes[i].Compute_node()
 	L.Nodes[i].scrambler(0)
 

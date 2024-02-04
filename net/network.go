@@ -57,12 +57,26 @@ func (N *Gorebrum) Set_inputs(inputs []float64) {
 this is the functon that makes a new network,
 New_Network takes 4 variabels as int as fallows
 
-	In_dimensions int, (this is the length of the vector that is pasesed into the network)
-	Width int, (the number of Layers includeing the frist and last Layers)
-	Depth int, (the lenght of the vectors in the hidden Layers)
-	Out_dimensions int, (the length of the Output layer)
+In_dimensions int, (this is the length of the vector that is pasesed into the network)
 
-	the function will then return a *Gorebrum
+Width int, (the number of Layers includeing the frist and last Layers)
+
+Depth int, (the lenght of the vectors in the hidden Layers)
+
+Out_dimensions int, (the length of the Output layer)
+
+the function will then return a *Gorebrum:
+
+		type Gorebrum struct {
+		input          *mat.VecDense
+		Layers         []*Layer
+		Output         *mat.VecDense
+		Width          int
+		Depth          int
+		Out_dimensions int
+		In_dimensions  int
+	}
+
 	the Output layer will allwase be a softmax actavation
 */
 func New_Network(
@@ -143,6 +157,7 @@ In_dimensions  :%v
 	}
 }
 
+// encodes the network and wrigths the model to a gob file wich
 func (N *Gorebrum) Encode_model(name string) {
 
 	//makes a filefore
