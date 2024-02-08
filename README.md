@@ -4,7 +4,7 @@
 
 
 # project status: 
-meme/not functional.
+functional needs testing!
 
 ### Key planned features 
 - concurrency: not functional 
@@ -12,7 +12,7 @@ meme/not functional.
 - exportable models: not functional
 
 # getting started 
-You can't 
+Docs and website in progress!   
 
 # contributing 
 
@@ -30,12 +30,12 @@ To deliver a viable innovative library for creating the next generation of AIs, 
 - respecting user privacy
 - maintaining an open and welcoming community
 - encouraging dialog and teamwork
-- limiting technical debt where ever possible 
+- limiting technical debt wherever possible 
 
 ### project requirements 
-- must have the ability to turn on and off all none essential features. 
+- must have the ability to turn on and off all non-essential features. 
 - all functions, types, methods, and tests must be documented no exceptions 
-- user must be able to export/import the base model as data. 
+- The user must be able to export/import the base model as data. 
 
 #### Current goal for 2023 
 
