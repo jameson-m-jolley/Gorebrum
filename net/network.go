@@ -28,19 +28,50 @@ type Gorebrum struct {
 func (N Gorebrum) Get_Output() *mat.VecDense {
 	return N.Output
 }
+
 func (N Gorebrum) Get_input() *mat.VecDense {
 	return N.input
 }
+
 func (N Gorebrum) Get_Layers() []*Layer {
 	return N.Layers
 }
+
 func (N Gorebrum) Get_layer(index int) *Layer {
 	return N.Layers[index]
+}
+
+func (N Gorebrum) Get_Width() int {
+	return N.Width
+}
+
+func (N Gorebrum) Get_Depth() int {
+	return N.Depth
 }
 
 // setters for the network
 func (N *Gorebrum) Set_Layer(index int, layer *Layer) {
 	N.Layers[index] = layer
+}
+
+func (N *Gorebrum) Set_Output(output *mat.VecDense) {
+	N.Output = output
+}
+
+func (N *Gorebrum) Set_Width(width int) {
+	N.Width = width
+}
+
+func (N *Gorebrum) Set_Depth(depth int) {
+	N.Depth = depth
+}
+
+func (N *Gorebrum) Set_Out_dimensions(outDimensions int) {
+	N.Out_dimensions = outDimensions
+}
+
+func (N *Gorebrum) Set_In_dimensions(inDimensions int) {
+	N.In_dimensions = inDimensions
 }
 
 // sets an input to the seme vec that is passed to it

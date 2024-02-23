@@ -35,13 +35,37 @@ func (L *Layer) Get_Nodes() []*Node {
 	return L.Nodes
 }
 
+func (L *Layer) Get_parent_network() *Gorebrum {
+	return L.parent_network
+}
+
 func (L *Layer) Get_Activation() string {
 	return L.Activation
+}
+
+func (L *Layer) Get_Index() int {
+	return L.Index
 }
 
 // setters
 func (L *Layer) Set_parent_network(parent_network *Gorebrum) {
 	L.parent_network = parent_network
+}
+
+func (L *Layer) Set_Index(index int) {
+	L.Index = index
+}
+
+func (L *Layer) Set_Nodes(nodes []*Node) {
+	L.Nodes = nodes
+}
+
+func (L *Layer) Set_Activation(activation string) {
+	L.Activation = activation
+}
+
+func (L *Layer) Set_Output(output *mat.VecDense) {
+	L.Output = output
 }
 
 // Compute_Layer
