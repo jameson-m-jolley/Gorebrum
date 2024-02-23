@@ -2,6 +2,7 @@ package net
 
 import (
 	"fmt"
+	"strconv"
 
 	"gonum.org/v1/gonum/mat"
 )
@@ -23,6 +24,7 @@ type Layer struct {
 	Activation     string
 	parent_network *Gorebrum // remove this from the encodeing and fix it in the decode file
 	Index          int
+	Log            []string // for training
 }
 
 // getter
@@ -70,6 +72,16 @@ func (net *Gorebrum) New_Layer(length int, inputsLen int, Activation string, Ind
 }
 
 // display the info for a layer with
+
+func (L Layer) ToXML() string {
+	XML := "<layer id=\"" + strconv.Itoa(L.Index) + "\" >"
+	for i := 0; i < len(L.Nodes); i++ {
+		XML += L.Nodes[i].ToXML()
+	}
+	XML += "</layer>"
+	return XML
+}
+
 func (L Layer) Display_info() {
 	fmt.Printf(`
 ---------------------------------------------------------------------

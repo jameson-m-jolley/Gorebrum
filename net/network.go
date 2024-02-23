@@ -17,6 +17,7 @@ type Gorebrum struct {
 	Depth          int
 	Out_dimensions int
 	In_dimensions  int
+	Log            []string // for training
 }
 
 // getters
@@ -123,6 +124,15 @@ func (N *Gorebrum) Update_Output() {
 }
 
 // this displays the network in all its glory and wonder
+func (N *Gorebrum) ToXML() string {
+	XML := "<NN class =\"model\">"
+	for i := 0; i < len(N.Layers); i++ {
+		XML += N.Layers[i].ToXML()
+	}
+	XML += "</NN>"
+	return XML
+
+}
 
 func (N *Gorebrum) Display_Network() {
 	fmt.Printf(`
