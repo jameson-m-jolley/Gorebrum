@@ -3,6 +3,7 @@ package net
 import (
 	"fmt"
 	"math/rand"
+	"strconv"
 
 	"gonum.org/v1/gonum/mat"
 )
@@ -24,8 +25,9 @@ type Node struct {
 	Bias         float64
 	Activation   string
 	Output       float64
-	parent_layer *Layer // remove this from the encodeing and fix it in the decode file
+	parent_layer *Layer // remove this from the encodeing and fixed it in the decode file
 	Index        int
+	Log          []string // for training
 }
 
 // geters
@@ -136,6 +138,29 @@ func (L *Layer) New_Node(Weights []float64, Bias float64, Activation string, i i
 	L.Nodes[i].Compute_node()
 	L.Nodes[i].scrambler(0)
 
+}
+
+func (n Node) ToXML() string {
+
+	wxml := ""
+	for i := 0; i < n.Weights.Len(); i++ {
+		wxml += "<index id=\"" + strconv.Itoa(i) + "\">" + strconv.Itoa(int(n.Weights.AtVec(i))) + "</index>"
+	}
+
+	XML := "<node id =\"" + strconv.Itoa(n.Index) + "\">"
+	/*
+		Weights      *mat.VecDense
+		inputs       *mat.VecDense // the field is kept private because it is not needed in the encodeing
+		Bias         float64
+		Activation   string
+		Output       float64
+		parent_layer *Layer // remove this from the encodeing and fixed it in the decode file
+		Index        int
+	*/
+
+	XML += "<Weights>" + wxml + "</Weights>"
+	XML += "</node>"
+	return XML
 }
 
 func (n Node) Display_info() {
