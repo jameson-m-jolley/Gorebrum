@@ -19,17 +19,17 @@ func main() {
 	network.Set_inputs([]float64{5, 2, 8.6, 7})
 	network.Computer_fraward_pass()
 	network.Display_Network()
-	println(network.ToXML())
 }
 
-func loop__() {
+func loop__(num int, t *net.trainer) {
 
-	//get the inputs for the nn
+	for i := 0; i < num; i++ {
+		//get the inputs for the nn
 
-	//compute the forward pass
+		//compute the forward pass
 
-	//determan if a traning pass is needed
+		//determan if a traning pass is needed
 
-	//conect outputs to functaionalty
-
+		//conect outputs to functaionalty
+	}
 }
