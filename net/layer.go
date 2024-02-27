@@ -95,6 +95,8 @@ func (net *Gorebrum) New_Layer(length int, inputsLen int, Activation string, Ind
 	net.Layers[Index] = Layer
 }
 
+//makes a layer in a static context.
+
 // display the info for a layer with
 
 func (L Layer) ToXML() string {
