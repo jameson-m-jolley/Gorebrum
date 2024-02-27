@@ -12,6 +12,7 @@ type Trainer struct {
 	network        *Gorebrum
 	hotvector      int
 	rate_of_change float64
+	algorithm      string
 }
 
 // this creates a new training obj for training a model on a data set
@@ -30,4 +31,17 @@ func (T *Trainer) compute_rate_of_change() float64 {
 
 func Compute_loss(value float64) float64 {
 	return -(math.Log(value))
+}
+
+func (T *Trainer) Compute_Training_Pass() {
+
+}
+
+// Training algoithm map
+var Traing_algoithms map[string]func(*Trainer) = map[string]func(*Trainer){
+	"none": no_mutation,
+}
+
+func no_mutation(*Trainer) {
+	println("Warring: no changes where made to the network while traning plese use set_algorithm to train the network")
 }
