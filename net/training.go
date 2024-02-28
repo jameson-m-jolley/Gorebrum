@@ -7,18 +7,37 @@ import (
 //this will be the implamentation of traing the network
 
 type Trainer struct {
-	inputs         [][]float64
-	outputs        [][]float64
-	network        *Gorebrum
-	hotvector      int
-	rate_of_change float64
-	algorithm      string
+	inputs           [][]float64
+	outputs          [][]float64
+	network          *Gorebrum
+	hotvector        int
+	rate_of_change   float64
+	algorithm        string
+	Traing_algoithms map[string]func(*Trainer)
 }
 
 // this creates a new training obj for training a model on a data set
 // doing it this way will give is freedom to implement different training strategies
 func New_trainer(network *Gorebrum) *Trainer {
-	return &Trainer{network: network}
+	this := Trainer{
+		network:          network,
+		Traing_algoithms: map[string]func(*Trainer){},
+	}
+	this.set_algorithm("None", this.no_mutation())
+	return &this
+}
+
+// traing functions
+func (T *Trainer) no_mutation() {
+	println("Warring: no changes where made to the network while traning plese use set_algorithm to train the network")
+}
+
+func (T *Trainer) rand_mutation() {
+
+}
+
+func (T *Trainer) set_algorithm(name string, fn func(*Trainer)) {
+	T.Traing_algoithms[name] = fn
 }
 
 func (T *Trainer) compute_rate_of_change() float64 {
@@ -35,13 +54,4 @@ func Compute_loss(value float64) float64 {
 
 func (T *Trainer) Compute_Training_Pass() {
 
-}
-
-// Training algoithm map
-var Traing_algoithms map[string]func(*Trainer) = map[string]func(*Trainer){
-	"none": no_mutation,
-}
-
-func no_mutation(*Trainer) {
-	println("Warring: no changes where made to the network while traning plese use set_algorithm to train the network")
 }
