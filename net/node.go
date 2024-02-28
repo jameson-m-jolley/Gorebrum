@@ -39,12 +39,16 @@ type Node struct {
 // this function grabs the Outputs from the layer before it.
 // unless it is the frist layer, in that case the input for the network is used
 func (n Node) Get_input() *mat.VecDense {
-	if n.parent_layer.Index == 0 {
-		n.inputs = n.parent_layer.parent_network.input
-		return n.parent_layer.parent_network.input
+	if n.parent_layer == nil {
+		return mat.NewVecDense(n.Weights.Len(), make([]float64, n.Weights.Len()))
 	} else {
-		n.inputs = n.parent_layer.parent_network.Layers[n.parent_layer.Index-1].Output
-		return n.parent_layer.parent_network.Layers[n.parent_layer.Index-1].Output
+		if n.parent_layer.Index == 0 {
+			n.inputs = n.parent_layer.parent_network.input
+			return n.parent_layer.parent_network.input
+		} else {
+			n.inputs = n.parent_layer.parent_network.Layers[n.parent_layer.Index-1].Output
+			return n.parent_layer.parent_network.Layers[n.parent_layer.Index-1].Output
+		}
 	}
 }
 
@@ -119,8 +123,7 @@ func (n *Node) Compute_node() {
 	n.Set_Output(Node_Activation_Functions[n.Activation](mat.Dot(n.Get_input(), n.Get_Weights())+n.Bias, n))
 }
 
-// makes a new node
-
+// makes a new node from the layer
 func (L *Layer) New_Node(Weights []float64, Bias float64, Activation string, i int) {
 	//makes the new node in mem
 	node := &Node{
@@ -140,25 +143,24 @@ func (L *Layer) New_Node(Weights []float64, Bias float64, Activation string, i i
 
 }
 
-func (n Node) ToXML() string {
+// makes a node form a static state
+func New_Node(Weights []float64, Bias float64, Activation string) *Node {
+	return &Node{
+		Weights:    mat.NewVecDense(len(Weights), Weights),
+		Bias:       Bias,
+		Activation: Activation,
+	}
+}
 
+func (n Node) ToXML() string {
 	wxml := ""
 	for i := 0; i < n.Weights.Len(); i++ {
-		wxml += "<index id=\"" + strconv.Itoa(i) + "\">" + strconv.Itoa(int(n.Weights.AtVec(i))) + "</index>"
+		wxml += "<index id=\"" + strconv.Itoa(i) + "\">" + strconv.FormatFloat(n.Weights.AtVec(i), 'f', 10, 64) + "</index>"
 	}
-
 	XML := "<node id =\"" + strconv.Itoa(n.Index) + "\">"
-	/*
-		Weights      *mat.VecDense
-		inputs       *mat.VecDense // the field is kept private because it is not needed in the encodeing
-		Bias         float64
-		Activation   string
-		Output       float64
-		parent_layer *Layer // remove this from the encodeing and fixed it in the decode file
-		Index        int
-	*/
-
 	XML += "<Weights>" + wxml + "</Weights>"
+	XML += "<Bias>" + strconv.FormatFloat(n.Bias, 'f', 10, 64) + "</Bias>"
+	XML += "<Activation>" + n.Get_Activation() + "</Activation>"
 	XML += "</node>"
 	return XML
 }

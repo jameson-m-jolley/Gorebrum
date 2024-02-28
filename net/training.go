@@ -45,6 +45,7 @@ func (T *Trainer) compute_rate_of_change() float64 {
 	loss2 := Compute_loss(T.outputs[len(T.outputs)][T.hotvector])
 
 	return (loss2 - loss1) / 1
+	return (loss2 - loss1) / 1
 
 }
 
