@@ -16,7 +16,7 @@ func main() {
 	//network.Set_inputs([]float64{5, 2, 8.6, 7})
 	//network.Computer_fraward_pass()
 	network.Display_Network()
-	loop__(net.New_trainer(network))
+
 }
 
 // this  was uses to train the network
