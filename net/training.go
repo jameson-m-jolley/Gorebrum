@@ -2,6 +2,7 @@ package net
 
 import (
 	"math"
+	"math/rand"
 )
 
 //this will be the implamentation of traing the network
@@ -23,6 +24,17 @@ func no_mutation(T *Trainer) {
 
 func rand_mutation(T *Trainer) {
 	print("this is not finished")
+
+	num := rand.Float64() + 1e-7
+	// get the nodes
+	l := rand.Intn(T.network.Depth)
+	n := rand.Intn(len(T.network.Layers[l].Nodes))
+	if rand.Intn(2) == 1 {
+		T.network.Get_layer(l).Get_Nodes()[n].Set_Bias(num)
+	} else {
+		T.network.Get_layer(l).Get_Nodes()[n].Weights.SetVec(rand.Intn(T.network.Get_layer(l).Get_Nodes()[n].Weights.Len()), num)
+	}
+
 }
 
 // this creates a new training obj for training a model on a data set
@@ -40,8 +52,18 @@ func New_trainer(network *Gorebrum) *Trainer {
 	}
 	return &this
 }
+func (T *Trainer) Set_algorithm(key string) {
+	_, exists := T.Traing_algoithms[key]
+	if exists {
+		println("alogithm found in the map under key [" + key + "] setting alogithm to function")
+		T.algorithm = key
+	} else {
+		println("[" + key + "] dose not exist in memory")
+	}
 
-func (T *Trainer) set_algorithm(name string, fn func(*Trainer)) {
+}
+
+func (T *Trainer) set_Traing_algoithms(name string, fn func(*Trainer)) {
 	T.Traing_algoithms[name] = fn
 }
 
@@ -58,5 +80,5 @@ func Compute_loss(value float64) float64 {
 }
 
 func (T *Trainer) Compute_Training_Pass() {
-
+	T.Traing_algoithms[T.algorithm](T)
 }

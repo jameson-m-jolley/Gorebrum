@@ -81,6 +81,11 @@ func (n Node) Get_parent_layer() *Layer {
 func (n *Node) Set_Weights(Weights *mat.VecDense) {
 	n.Weights = Weights
 }
+func (n *Node) Set_Weight(index int, val float64) {
+	if val < 1e-7 && val > -1e-7 {
+		n.Weights.SetVec(index, val)
+	}
+}
 
 // sets the Bias of a node to a float64
 func (n *Node) Set_Bias(Bias float64) {

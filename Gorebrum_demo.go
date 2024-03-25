@@ -16,10 +16,8 @@ func main() {
 	//network.Set_inputs([]float64{5, 2, 8.6, 7})
 	//network.Computer_fraward_pass()
 	network.Display_Network()
-
-}
-
-// this  was uses to train the network
-func train_imgs(coach *net.Trainer, hotvet int, path string) {
+	trainer := net.New_trainer(network)
+	trainer.Set_algorithm("rand_mutation")
+	trainer.Compute_Training_Pass()
 
 }
