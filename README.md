@@ -9,7 +9,7 @@ functional needs testing!
 ### Key planned features 
 - concurrency: not functional 
 - GPU compute: not functional
-- exportable models: not functional
+- exportable models:  functional in XML
 
 # getting started 
 Docs and website in progress!   
